@@ -1,41 +1,72 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosResponse, ResponseType } from 'axios';
 import { message } from 'antd';
 import { API_URL } from '../config';
 import { IFlightRequest } from '../models/TasksInterfaces';
+import { IModelResult, ITenderInput } from '../models/TenderInterfaces';
 
 export interface IDashboardService {
-    fetchFlights(): Promise<Array<IFlightRequest>>;
-    changeBus(task_id: number, bus_id: number): void;
+    fetchResultByData(data: ITenderInput): Promise<IModelResult>;
+    fetchResultByFile(options: any): Promise<string>;
 }
 
 class DashboardService implements IDashboardService {
-    public async fetchFlights(): Promise<Array<IFlightRequest>> {
+    public async fetchResultByData(data: ITenderInput): Promise<IModelResult> {
         try {
-            const response = await axios.get(`${API_URL}/flight/all`);
+            const response = await axios.post(`${API_URL}/calculate`, {
+                status: 'string',
+                session_name: data.name,
+                OKPD: data.odpk,
+                KPGZ: data.kpgz,
+                Region: data.region,
+                start_price: data.nmck,
+                date: data.date.toISOString().split('T')[0],
+                participants: 'string',
+                INN: data.inn,
+            });
             // const response = await axios.get(`./response_1666522055380.json`);
             // console.log(response);
 
-            let data: Array<IFlightRequest> = response.data;
+            let res: IModelResult = response.data;
 
-            return data;
+            return res;
         } catch (err) {
-            message.error('Ошибка получения рейсов');
+            message.error('Ошибка получения результата');
             console.log('Eroor: ', err);
-            const error = new Error('Ошибка получения рейсов');
+            const error = new Error('Ошибка получения результата');
             throw error;
         }
     }
 
-    public async changeBus(task_id: number, bus_id: number) {
+    public async fetchResultByFile(options: any): Promise<string> {
+        const { onSuccess, onError, file } = options;
+
+        const fmData = new FormData();
+
+        const type: ResponseType = 'blob';
+        // const config = {
+        //     headers: { 'content-type': 'multipart/form-data' },
+        //     // responseType: type,
+        // };
+        fmData.append('file', file);
+
+        console.log(fmData);
+
         try {
-            const response = await axios.put(`${API_URL}/task/update`, {
-                task_id: task_id,
-                bus_id: bus_id,
-            });
+            // const response = await axios.post(`${API_URL}/calculate_csv`, fmData, config);
+            const response = await axios.post(`${API_URL}/calculate_csv`, fmData);
+            // const href = URL.createObjectURL(response.data);
+            // console.log(href);
+            console.log(response.data);
+
+            onSuccess('Ok');
+
+            console.log('server res: ', response);
+            return 'response';
         } catch (err) {
-            message.error('Ошибка обновления рейсов');
             console.log('Eroor: ', err);
-            const error = new Error('Ошибка обновления рейсов');
+            const error = new Error('Some error');
+            message.error('Не удалось загрузить таблицу');
+            onError({ err });
             throw error;
         }
     }

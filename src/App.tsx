@@ -1,85 +1,61 @@
 import React from 'react';
-import { Layout, Menu } from 'antd';
+import { Breadcrumb, Layout, Menu, ConfigProvider } from 'antd';
 import { Routes, Route, Navigate, BrowserRouter, Link } from 'react-router-dom';
 import { RouteNames, routes } from './router';
 
 import 'antd/dist/antd.css';
 import './App.scss';
 
-import {
-    DashboardOutlined,
-    MenuFoldOutlined,
-    MenuUnfoldOutlined,
-    QuestionCircleOutlined,
-    UploadOutlined,
-    VideoCameraOutlined,
-} from '@ant-design/icons';
 import { useStores } from './hooks/useStores';
+import Home from './pages/Home/Home';
+import { observer } from 'mobx-react-lite';
 
-const { Header, Sider, Content } = Layout;
+const { Header, Content, Footer } = Layout;
 
-const App: React.FC = () => {
+const App: React.FC = observer(() => {
     const [collapsed, setCollapsed] = React.useState(false);
 
     const { operatorStore } = useStores();
 
-    React.useEffect(() => {
-        operatorStore.fetchFlights();
-    }, [operatorStore]);
-
     return (
-        <Layout>
-            <BrowserRouter>
-                <Sider trigger={null} collapsible collapsed={collapsed}>
-                    <div className='logo' />
-                    <Menu
-                        theme='dark'
-                        mode='inline'
-                        defaultSelectedKeys={['1']}
-                        items={[
-                            {
-                                key: '1',
-                                icon: <DashboardOutlined />,
-                                label: <Link to={RouteNames.HOME}>Главная</Link>,
-                            },
-                            {
-                                key: '2',
-                                icon: <QuestionCircleOutlined />,
-                                label: <Link to={RouteNames.PENDING}>Без исполнителя</Link>,
-                            },
-                        ]}
-                    />
-                </Sider>
-                <Layout className='site-layout'>
-                    <div className='menu-collapse-icon'>
-                        {React.createElement(collapsed ? MenuUnfoldOutlined : MenuFoldOutlined, {
-                            className: 'trigger',
-                            onClick: () => setCollapsed(!collapsed),
-                        })}
-                    </div>
-                    <Content
-                        className='site-layout-background'
-                        style={{
-                            margin: '24px 16px',
-                            padding: 0,
-                            minHeight: '100vh',
-                        }}
-                    >
-                        <Routes>
-                            {routes.map((route, index) => (
-                                <Route
-                                    key={index + route.path}
-                                    path={route.path}
-                                    element={<route.element />}
-                                />
-                            ))}
-                            <Route path='*' element={<Navigate to={RouteNames.HOME} replace />} />
-                        </Routes>
-                    </Content>
-                </Layout>
-            </BrowserRouter>
-        </Layout>
+        <ConfigProvider
+            /*
+            // @ts-ignore */
+            theme={{
+                token: {
+                    colorPrimary: '#00b96b',
+                },
+            }}
+        >
+            <Layout className='layout tender__layout'>
+                <Header>
+                    {/* <div className='logo' />
+                <Menu
+                    theme='dark'
+                    mode='horizontal'
+                    defaultSelectedKeys={['2']}
+                    items={new Array(15).fill(null).map((_, index) => {
+                        const key = index + 1;
+                        return {
+                            key,
+                            label: `nav ${key}`,
+                        };
+                    })}
+                /> */}
+                    <div className='home-header'></div>
+                </Header>
+                <Content style={{ padding: '20px 0px 0 0px' }}>
+                    {/* <Breadcrumb style={{ margin: '16px 0' }}>
+                    <Breadcrumb.Item>Home</Breadcrumb.Item>
+                    <Breadcrumb.Item>List</Breadcrumb.Item>
+                    <Breadcrumb.Item>App</Breadcrumb.Item>
+                </Breadcrumb> */}
+                    <Home />
+                </Content>
+                {/* <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer> */}
+            </Layout>
+        </ConfigProvider>
     );
-};
+});
 
 export default App;

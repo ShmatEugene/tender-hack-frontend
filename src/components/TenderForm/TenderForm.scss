@@ -1,0 +1,45 @@
+.tender-form {
+    &__col {
+        padding: 0 10px;
+    }
+    .ant-picker {
+        width: 100%;
+        border-radius: 0;
+    }
+    .ant-input-number {
+        width: 100%;
+    }
+    .ant-input,
+    .ant-input-number-input-wrap > input {
+        height: 48px;
+        border-radius: 0;
+    }
+    .ant-input-number {
+        border-radius: 0;
+    }
+    #tender-form_date {
+        height: 39px;
+        border-radius: 0;
+    }
+    .ant-form-item-required {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .submit-btn {
+        background: #c93d2e;
+        border-radius: 0;
+        border: 0;
+        padding: 12px 30px;
+        font-size: 16px;
+        font-weight: 600;
+        height: 48px;
+    }
+    .ant-form-item-required span {
+        display: none;
+    }
+
+    .ant-form-item-required:after {
+        display: none;
+    }
+}
