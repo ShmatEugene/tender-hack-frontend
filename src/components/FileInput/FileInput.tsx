@@ -1,14 +1,17 @@
 import React from 'react';
 import { Button, Col, DatePicker, Form, Input, InputNumber, Row, Upload } from 'antd';
 import { useStores } from '../../hooks/useStores';
+//@ts-ignore
+import { CSVLink, CSVDownload } from 'react-csv';
 
 import { UploadOutlined } from '@ant-design/icons';
 import { UploadChangeParam } from 'antd/lib/upload';
 import { UploadFile } from 'antd/lib/upload/interface';
 
 import './FileInput.scss';
+import { observer } from 'mobx-react-lite';
 
-function FileInput() {
+const FileInput = observer(() => {
     const { operatorStore } = useStores();
     const [isPurchasesUploadHidden, setIsPurchasesUploadHidden] = React.useState(true);
     const [isMissionsUploadHidden, setIsMissionsUploadHidden] = React.useState(true);
@@ -73,11 +76,14 @@ function FileInput() {
                     shape='round'
                     disabled={!linkToFile}
                 >
-                    Скачать
+                    <CSVLink data={linkToFile}>Скачать</CSVLink>
+                    {/* <a href={linkToFile} download>
+                        Cкачать
+                    </a> */}
                 </Button>
             }
         </>
     );
-}
+});
 
 export default FileInput;

@@ -55,6 +55,7 @@ export class OperatorStore implements IOperatorStore {
                 this.linkToResultFile = linkToFile;
             });
         }
+        console.log(linkToFile);
 
         return linkToFile;
     }

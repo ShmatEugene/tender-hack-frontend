@@ -12,10 +12,10 @@ export interface IDashboardService {
 
 class DashboardService implements IDashboardService {
     public async fetchResultByData(data: ITenderInput): Promise<IModelResult> {
-        const date = moment(data.date).format('YYYY.MM.DD');
+        const date = moment(data.date).format('DD.MM.YYYY');
         try {
             const response = await axios.post(`${API_URL}/calculate`, {
-                id: 0,
+                id: 287205,
                 session_name: data.name,
                 OKPD: data.odpk,
                 KPGZ: data.kpgz,
@@ -28,6 +28,7 @@ class DashboardService implements IDashboardService {
             // console.log(response);
 
             let res: IModelResult = response.data;
+            console.log(res);
 
             return res;
         } catch (err) {
@@ -57,12 +58,14 @@ class DashboardService implements IDashboardService {
             const response = await axios.post(`${API_URL}/calculate_csv`, fmData);
             // const href = URL.createObjectURL(response.data);
             // console.log(href);
-            console.log(response.data);
+            console.log(response);
 
             onSuccess('Ok');
 
             console.log('server res: ', response);
-            return 'response';
+            // return 'blob:http://94.45.223.241:46873/35ae6522-de4b-4960-a843-398c7b1818fc';
+            return response.data;
+            return 'https://www.stats.govt.nz/assets/Uploads/Tools/CSV-files-for-download/analysis-public-place-assaults-sexual-assaults-and-robberies-2015-csv.csv';
         } catch (err) {
             console.log('Eroor: ', err);
             const error = new Error('Some error');
