@@ -11,7 +11,7 @@ const TenderForm = () => {
     const { operatorStore } = useStores();
 
     const onFinish = (values: ITenderInput) => {
-        console.log('Success:', values);
+        console.log('Success:1', values);
         operatorStore.fetchResultByData(values);
         // const lotName = values.lotName,
         //     lotPriceInRub = values.lotPriceInRub,

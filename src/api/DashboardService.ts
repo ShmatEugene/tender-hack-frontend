@@ -12,7 +12,7 @@ export interface IDashboardService {
 
 class DashboardService implements IDashboardService {
     public async fetchResultByData(data: ITenderInput): Promise<IModelResult> {
-        const date = moment(data.date).format('DD.MM.YYYY');
+        const date = moment(data.date).format('YYYY.MM.DD');
 
         try {
             const response = await axios.post(`${API_URL}/calculate`, {
