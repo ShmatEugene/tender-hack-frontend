@@ -17,6 +17,7 @@ const FileInput = observer(() => {
     const [isMissionsUploadHidden, setIsMissionsUploadHidden] = React.useState(true);
 
     const linkToFile = operatorStore.linkToResultFile;
+    console.log(linkToFile);
 
     const onFinish = (values: any) => {
         console.log('Success:', values);
@@ -76,7 +77,7 @@ const FileInput = observer(() => {
                     shape='round'
                     disabled={!linkToFile}
                 >
-                    <CSVLink data={linkToFile}>Скачать</CSVLink>
+                    <CSVLink data={linkToFile}>Скачать 1</CSVLink>
                     {/* <a href={linkToFile} download>
                         Cкачать
                     </a> */}
