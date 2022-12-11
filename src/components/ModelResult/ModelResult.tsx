@@ -9,7 +9,15 @@ import { toJS } from 'mobx';
 const ModelResult = observer(() => {
     const { operatorStore } = useStores();
     const result = toJS(operatorStore.result);
-
+    let res = 0;
+    if (result.percent < 0) {
+        res = 0;
+    } else if (result.percent > 1) {
+        res = 1;
+    } else {
+        res *= 100;
+    }
+    res = +res.toFixed(2);
     return (
         <>
             <div className='model-result'>
@@ -20,7 +28,7 @@ const ModelResult = observer(() => {
                     <div className='metrics'>
                         <div className='metric'>
                             <div className='metric__label'>Отклонение от начальной стоимости</div>
-                            <div className='metric__value'>{result.percent}%</div>
+                            <div className='metric__value'>{res}%</div>
                         </div>
                         <div className='metric'>
                             <div className='metric__label'>Количество участников</div>
