@@ -11,7 +11,7 @@ const ModelResult = observer(() => {
     const result = toJS(operatorStore.result);
     let res = 0;
     console.log(result.percent);
-    res = +result.percent.toFixed(2);
+    res = +result.percent.toFixed(4);
     if (+result.percent < 0) {
         res = 0;
     } else if (result.percent > 1) {
