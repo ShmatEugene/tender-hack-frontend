@@ -3,6 +3,7 @@ import { message } from 'antd';
 import { API_URL } from '../config';
 import { IFlightRequest } from '../models/TasksInterfaces';
 import { IModelResult, ITenderInput } from '../models/TenderInterfaces';
+import moment from 'moment';
 
 export interface IDashboardService {
     fetchResultByData(data: ITenderInput): Promise<IModelResult>;
@@ -11,16 +12,16 @@ export interface IDashboardService {
 
 class DashboardService implements IDashboardService {
     public async fetchResultByData(data: ITenderInput): Promise<IModelResult> {
+        const date = moment(data.date).format('DD.MM.YYYY');
+
         try {
             const response = await axios.post(`${API_URL}/calculate`, {
-                status: 'string',
                 session_name: data.name,
                 OKPD: data.odpk,
                 KPGZ: data.kpgz,
                 Region: data.region,
                 start_price: data.nmck,
-                date: data.date.toISOString().split('T')[0],
-                participants: 'string',
+                date: date,
                 INN: data.inn,
             });
             // const response = await axios.get(`./response_1666522055380.json`);

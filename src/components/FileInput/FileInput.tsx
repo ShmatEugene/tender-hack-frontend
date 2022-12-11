@@ -65,11 +65,17 @@ function FileInput() {
                     </Form.Item>
                 </Form.Item>
             </Form>
-            {linkToFile && (
-                <Button className='submit-btn' type='primary' size='large' shape='round'>
+            {
+                <Button
+                    className='submit-btn file-download-btn'
+                    type='primary'
+                    size='large'
+                    shape='round'
+                    disabled={!linkToFile}
+                >
                     Скачать
                 </Button>
-            )}
+            }
         </>
     );
 }

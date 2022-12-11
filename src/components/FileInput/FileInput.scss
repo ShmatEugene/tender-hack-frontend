@@ -1,3 +1,17 @@
 .ant-upload.ant-upload-drag p.ant-upload-drag-icon .anticon {
     color: #c93d2e;
 }
+
+.file-download-btn {
+    background: #c93d2e;
+    border-radius: 0 !important;
+    border: 0;
+    padding: 12px 30px;
+    font-size: 16px;
+    font-weight: 600;
+    height: 48px;
+    margin-bottom: 30px;
+    &:hover {
+        background: #c93d2e;
+    }
+}
