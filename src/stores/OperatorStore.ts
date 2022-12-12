@@ -59,7 +59,6 @@ export class OperatorStore implements IOperatorStore {
     }
 
     public async fetchResultByFile(options: any): Promise<string> {
-        this.isLoading = true;
         try {
             const linkToFile = await DashboardServiceInstanse.fetchResultByFile(options);
 
@@ -75,8 +74,6 @@ export class OperatorStore implements IOperatorStore {
         } catch (error) {
             console.log('error');
             return new Promise(() => 'error');
-        } finally {
-            this.isLoading = false;
         }
     }
 }
