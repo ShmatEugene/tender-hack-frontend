@@ -6,17 +6,15 @@ import { useStores } from '../../hooks/useStores';
 
 import './TenderForm.scss';
 import { IModelResult, ITenderInput } from '../../models/TenderInterfaces';
+import { observer } from 'mobx-react-lite';
 
-const TenderForm = () => {
+const TenderForm = observer(() => {
     const { operatorStore } = useStores();
+    const isLoading = operatorStore.isLoading;
 
     const onFinish = (values: ITenderInput) => {
-        console.log('Success:1', values);
+        console.log('Success:', values);
         operatorStore.fetchResultByData(values);
-        // const lotName = values.lotName,
-        //     lotPriceInRub = values.lotPriceInRub,
-        //     minNumberOfParticipants = values.minNumberOfParticipants;
-        // auctionStore.setFormData(lotName, lotPriceInRub, minNumberOfParticipants);
     };
 
     const onFinishFailed = (errorInfo: any) => {
@@ -49,7 +47,7 @@ const TenderForm = () => {
                         >
                             <DatePicker placeholder='9.12.2022' />
                         </Form.Item>
-                        <Form.Item
+                        {/* <Form.Item
                             rules={[
                                 {
                                     required: true,
@@ -60,7 +58,7 @@ const TenderForm = () => {
                             label='ИНН заказчика'
                         >
                             <Input placeholder='с00с03dca0a2' />
-                        </Form.Item>
+                        </Form.Item> */}
                         <Form.Item
                             rules={[
                                 {
@@ -77,7 +75,7 @@ const TenderForm = () => {
                     <Col className='tender-form__col' span={12}>
                         <Form.Item
                             rules={[{ required: true, message: 'Введите цену' }]}
-                            label='НМЦК'
+                            label='Начальная цена'
                             name='nmck'
                             tooltip='Кодировка товаров, работ или услуг – объектов котировочной сессии по общему классификатору продукции по видам экономической деятельности'
                         >
@@ -85,7 +83,7 @@ const TenderForm = () => {
                         </Form.Item>
                         <Form.Item
                             rules={[{ required: true, message: 'Введите кодировку' }]}
-                            label='ОКПД 2'
+                            label='Код ОКПД 2'
                             name='okpd'
                             tooltip='Кодировка товаров, работ или услуг – объектов котировочной сессии по общему классификатору продукции по видам экономической деятельности'
                         >
@@ -99,7 +97,7 @@ const TenderForm = () => {
                                 },
                             ]}
                             name='kpgz'
-                            label='КПГЗ'
+                            label='Код КПГЗ'
                             tooltip='Кодировка товаров, работ или услуг – объектов котировочной сессии по общему классификатору продукции по видам экономической деятельности'
                         >
                             <Input placeholder='01.06.01.03.01;01.06.01.03.01' />
@@ -113,6 +111,7 @@ const TenderForm = () => {
                                 htmlType='submit'
                                 size='large'
                                 shape='round'
+                                loading={isLoading}
                             >
                                 Рассчитать
                             </Button>
@@ -122,6 +121,6 @@ const TenderForm = () => {
             </Form>
         </>
     );
-};
+});
 
 export default TenderForm;

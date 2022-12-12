@@ -7,6 +7,7 @@ export interface IOperatorStore {
     result: IModelResult;
     isResultActive: boolean;
     linkToResultFile: string;
+    isLoading: boolean;
 
     fetchResultByData(data: ITenderInput): Promise<IModelResult>;
     fetchResultByFile(options: any): Promise<string>;
@@ -17,6 +18,7 @@ export class OperatorStore implements IOperatorStore {
     result: IModelResult;
     isResultActive: boolean;
     linkToResultFile: string;
+    isLoading: boolean;
 
     constructor() {
         makeAutoObservable(this, {
@@ -32,31 +34,49 @@ export class OperatorStore implements IOperatorStore {
         };
         this.isResultActive = false;
         this.linkToResultFile = '';
+        this.isLoading = false;
     }
 
     public async fetchResultByData(data: ITenderInput): Promise<IModelResult> {
-        const result = await DashboardServiceInstanse.fetchResultByData(data);
-        console.log(result);
-        if (result) {
-            runInAction(() => {
-                this.result = result;
-            });
-        }
+        this.isLoading = true;
 
-        return result;
+        try {
+            const result = await DashboardServiceInstanse.fetchResultByData(data);
+            console.log(result);
+            if (result) {
+                runInAction(() => {
+                    this.result = result;
+                    this.isLoading = false;
+                });
+            }
+            return result;
+        } catch (error) {
+            runInAction(() => {
+                this.isLoading = false;
+            });
+            throw error;
+        }
     }
 
     public async fetchResultByFile(options: any): Promise<string> {
-        const linkToFile = await DashboardServiceInstanse.fetchResultByFile(options);
+        this.isLoading = true;
+        try {
+            const linkToFile = await DashboardServiceInstanse.fetchResultByFile(options);
 
-        console.log(linkToFile);
-        if (linkToFile) {
-            runInAction(() => {
-                this.linkToResultFile = linkToFile;
-            });
+            console.log(linkToFile);
+            if (linkToFile) {
+                runInAction(() => {
+                    this.linkToResultFile = linkToFile;
+                });
+            }
+            console.log(linkToFile);
+
+            return linkToFile;
+        } catch (error) {
+            console.log('error');
+            return new Promise(() => 'error');
+        } finally {
+            this.isLoading = false;
         }
-        console.log(linkToFile);
-
-        return linkToFile;
     }
 }

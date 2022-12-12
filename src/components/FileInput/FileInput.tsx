@@ -77,7 +77,7 @@ const FileInput = observer(() => {
                     shape='round'
                     disabled={!linkToFile}
                 >
-                    <CSVLink data={linkToFile}>Скачать 1</CSVLink>
+                    <CSVLink data={linkToFile}>Скачать</CSVLink>
                     {/* <a href={linkToFile} download>
                         Cкачать
                     </a> */}

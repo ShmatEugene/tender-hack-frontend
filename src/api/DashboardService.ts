@@ -22,7 +22,7 @@ class DashboardService implements IDashboardService {
                 Region: data.region,
                 start_price: data.nmck,
                 date: date,
-                INN: data.inn,
+                INN: 'asdf023820s',
             });
             // const response = await axios.get(`./response_1666522055380.json`);
             // console.log(response);
