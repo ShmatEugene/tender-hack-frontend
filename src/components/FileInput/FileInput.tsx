@@ -45,7 +45,7 @@ const FileInput = observer(() => {
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
             >
-                <Form.Item name='table' label='csv file'>
+                <Form.Item name='table' label=''>
                     <Form.Item
                         rules={[{ required: true, message: 'Загрузите таблицу' }]}
                         name='dragger'
@@ -56,7 +56,7 @@ const FileInput = observer(() => {
                             customRequest={async (options) => {
                                 operatorStore.fetchResultByFile(options);
                             }}
-                            accept='.csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+                            accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
                             maxCount={1}
                             onChange={onFileUploadSuccess}
                         >
@@ -69,6 +69,7 @@ const FileInput = observer(() => {
                     </Form.Item>
                 </Form.Item>
             </Form>
+            {console.log(linkToFile)}
             {
                 <Button
                     className='submit-btn file-download-btn'

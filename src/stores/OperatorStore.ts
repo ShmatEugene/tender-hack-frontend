@@ -1,3 +1,4 @@
+import { link } from 'fs';
 import { observable, runInAction, makeAutoObservable } from 'mobx';
 import { DashboardServiceInstanse } from '../api/DashboardService';
 import { IFlightRequest } from '../models/TasksInterfaces';
@@ -49,6 +50,7 @@ export class OperatorStore implements IOperatorStore {
                     this.isLoading = false;
                 });
             }
+
             return result;
         } catch (error) {
             runInAction(() => {
@@ -63,13 +65,17 @@ export class OperatorStore implements IOperatorStore {
             const linkToFile = await DashboardServiceInstanse.fetchResultByFile(options);
 
             console.log(linkToFile);
-            if (linkToFile) {
-                runInAction(() => {
-                    this.linkToResultFile = linkToFile;
-                });
+            //@ts-ignore
+            if (typeof linkToFile !== 'string') {
+                options.onError('unknown format');
+                return '';
+            } else {
+                if (linkToFile) {
+                    runInAction(() => {
+                        this.linkToResultFile = linkToFile;
+                    });
+                }
             }
-            console.log(linkToFile);
-
             return linkToFile;
         } catch (error) {
             console.log('error');
